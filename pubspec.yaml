@@ -39,6 +39,10 @@ dependencies:
   get: ^4.6.5
   flutter_keyboard_visibility: ^5.4.1
   firebase_core: ^2.15.1
+  google_sign_in: ^6.1.5
+  firebase_auth: ^4.9.0
+  cloud_firestore: ^4.9.1
+  flutter_easyloading: ^3.0.5
 
 dev_dependencies:
   flutter_test:
