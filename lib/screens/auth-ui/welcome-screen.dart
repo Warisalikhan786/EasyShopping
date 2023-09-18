@@ -1,5 +1,6 @@
 // ignore_for_file: file_names, prefer_const_constructors, avoid_unnecessary_containers, prefer_const_literals_to_create_immutables
 
+import 'package:e_comm/screens/auth-ui/sign-in-screen.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:lottie/lottie.dart';
@@ -88,7 +89,9 @@ class WelcomeScreen extends StatelessWidget {
                     "Sign in with email",
                     style: TextStyle(color: AppConstant.appTextColor),
                   ),
-                  onPressed: () {},
+                  onPressed: () {
+                    Get.to(() => SignInScreen());
+                  },
                 ),
               ),
             )
