@@ -10,6 +10,8 @@ import 'package:flutter_keyboard_visibility/flutter_keyboard_visibility.dart';
 import 'package:get/get.dart';
 import 'package:lottie/lottie.dart';
 
+import 'forget-password-screen.dart';
+
 class SignInScreen extends StatefulWidget {
   const SignInScreen({super.key});
 
@@ -100,11 +102,16 @@ class _SignInScreenState extends State<SignInScreen> {
               Container(
                 margin: EdgeInsets.symmetric(horizontal: 10.0),
                 alignment: Alignment.centerRight,
-                child: Text(
-                  "Forget Password?",
-                  style: TextStyle(
-                      color: AppConstant.appScendoryColor,
-                      fontWeight: FontWeight.bold),
+                child: GestureDetector(
+                  onTap: () {
+                    Get.to(() => ForgetPasswordScreen());
+                  },
+                  child: Text(
+                    "Forget Password?",
+                    style: TextStyle(
+                        color: AppConstant.appScendoryColor,
+                        fontWeight: FontWeight.bold),
+                  ),
                 ),
               ),
               SizedBox(
