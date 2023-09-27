@@ -1,6 +1,7 @@
-// ignore_for_file: prefer_const_constructors, prefer_const_literals_to_create_immutables, avoid_unnecessary_containers, unused_local_variable
+// ignore_for_file: prefer_const_constructors, prefer_const_literals_to_create_immutables, avoid_unnecessary_containers, unused_local_variable, unnecessary_null_comparison, file_names
 
 import 'package:e_comm/controllers/sign-in-controller.dart';
+import 'package:e_comm/screens/admin-panel/admin-main-screen.dart';
 import 'package:e_comm/screens/auth-ui/sign-up-screen.dart';
 import 'package:e_comm/screens/user-panel/main-screen.dart';
 import 'package:e_comm/utils/app-constant.dart';
@@ -10,6 +11,7 @@ import 'package:flutter_keyboard_visibility/flutter_keyboard_visibility.dart';
 import 'package:get/get.dart';
 import 'package:lottie/lottie.dart';
 
+import '../../controllers/get-user-data-controller.dart';
 import 'forget-password-screen.dart';
 
 class SignInScreen extends StatefulWidget {
@@ -21,6 +23,8 @@ class SignInScreen extends StatefulWidget {
 
 class _SignInScreenState extends State<SignInScreen> {
   final SignInController signInController = Get.put(SignInController());
+  final GetUserDataController getUserDataController =
+      Get.put(GetUserDataController());
   TextEditingController userEmail = TextEditingController();
   TextEditingController userPassword = TextEditingController();
 
@@ -146,16 +150,31 @@ class _SignInScreenState extends State<SignInScreen> {
                         UserCredential? userCredential = await signInController
                             .signInMethod(email, password);
 
+                        var userData = await getUserDataController
+                            .getUserData(userCredential!.user!.uid);
+
                         if (userCredential != null) {
                           if (userCredential.user!.emailVerified) {
-                            Get.snackbar(
-                              "Success",
-                              "login Successfully!",
-                              snackPosition: SnackPosition.BOTTOM,
-                              backgroundColor: AppConstant.appScendoryColor,
-                              colorText: AppConstant.appTextColor,
-                            );
-                            Get.offAll(() => MainScreen());
+                            //
+                            if (userData[0]['isAdmin'] == true) {
+                              Get.snackbar(
+                                "Success Admin Login",
+                                "login Successfully!",
+                                snackPosition: SnackPosition.BOTTOM,
+                                backgroundColor: AppConstant.appScendoryColor,
+                                colorText: AppConstant.appTextColor,
+                              );
+                              Get.offAll(() => AdminMainScreen());
+                            } else {
+                              Get.offAll(() => MainScreen());
+                              Get.snackbar(
+                                "Success User Login",
+                                "login Successfully!",
+                                snackPosition: SnackPosition.BOTTOM,
+                                backgroundColor: AppConstant.appScendoryColor,
+                                colorText: AppConstant.appTextColor,
+                              );
+                            }
                           } else {
                             Get.snackbar(
                               "Error",
