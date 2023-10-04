@@ -1,4 +1,4 @@
-// ignore_for_file: file_names, unnecessary_overrides, unused_local_variable
+// ignore_for_file: file_names, unnecessary_overrides, unused_local_variable, avoid_print
 
 import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:get/get.dart';
