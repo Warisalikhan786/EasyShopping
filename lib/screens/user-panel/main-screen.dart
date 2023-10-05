@@ -5,6 +5,7 @@ import 'package:flutter/services.dart';
 import 'package:get/get.dart';
 import '../../utils/app-constant.dart';
 import '../../widgets/banner-widget.dart';
+import '../../widgets/category-widget.dart';
 import '../../widgets/custom-drawer-widget.dart';
 import '../../widgets/heading-widget.dart';
 
@@ -46,6 +47,9 @@ class MainScreen extends StatelessWidget {
                 buttonText: "See More >",
               ),
 
+              CategoriesWidget(),
+
+              //heading
               HeadingWidget(
                 headingTitle: "Flash Sale",
                 headingSubTitle: "According to your budget",
