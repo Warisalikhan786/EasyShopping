@@ -7,6 +7,7 @@ import '../../utils/app-constant.dart';
 import '../../widgets/banner-widget.dart';
 import '../../widgets/category-widget.dart';
 import '../../widgets/custom-drawer-widget.dart';
+import '../../widgets/flash-sale-widget.dart';
 import '../../widgets/heading-widget.dart';
 
 class MainScreen extends StatelessWidget {
@@ -56,6 +57,8 @@ class MainScreen extends StatelessWidget {
                 onTap: () {},
                 buttonText: "See More >",
               ),
+
+              FlashSaleWidget(),
             ],
           ),
         ),
