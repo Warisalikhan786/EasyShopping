@@ -3,6 +3,7 @@
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:e_comm/models/categories-model.dart';
+import 'package:e_comm/screens/user-panel/single-category-products-screen.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:get/get.dart';
 import 'package:image_card/image_card.dart';
@@ -52,20 +53,24 @@ class CategoriesWidget extends StatelessWidget {
                 );
                 return Row(
                   children: [
-                    Padding(
-                      padding: EdgeInsets.all(5.0),
-                      child: Container(
-                        child: FillImageCard(
-                          borderRadius: 20.0,
-                          width: Get.width / 4.0,
-                          heightImage: Get.height / 12,
-                          imageProvider: CachedNetworkImageProvider(
-                            categoriesModel.categoryImg,
-                          ),
-                          title: Center(
-                            child: Text(
-                              categoriesModel.categoryName,
-                              style: TextStyle(fontSize: 12.0),
+                    GestureDetector(
+                      onTap: () => Get.to(() => AllSingleCategoryProductsScreen(
+                          categoryId: categoriesModel.categoryId)),
+                      child: Padding(
+                        padding: EdgeInsets.all(5.0),
+                        child: Container(
+                          child: FillImageCard(
+                            borderRadius: 20.0,
+                            width: Get.width / 4.0,
+                            heightImage: Get.height / 12,
+                            imageProvider: CachedNetworkImageProvider(
+                              categoriesModel.categoryImg,
+                            ),
+                            title: Center(
+                              child: Text(
+                                categoriesModel.categoryName,
+                                style: TextStyle(fontSize: 12.0),
+                              ),
                             ),
                           ),
                         ),
