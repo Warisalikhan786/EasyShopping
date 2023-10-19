@@ -129,3 +129,4 @@ class AllProductsScreen extends StatelessWidget {
     );
   }
 }
+

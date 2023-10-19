@@ -136,3 +136,4 @@ class _AllFlashSaleProductScreenState extends State<AllFlashSaleProductScreen> {
     );
   }
 }
+

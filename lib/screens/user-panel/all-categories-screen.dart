@@ -123,3 +123,4 @@ class _AllCategoriesScreenState extends State<AllCategoriesScreen> {
     );
   }
 }
+
