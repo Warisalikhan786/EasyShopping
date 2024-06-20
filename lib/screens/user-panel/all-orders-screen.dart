@@ -7,6 +7,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import '../../controllers/cart-price-controller.dart';
+import 'add_reviews_screen.dart';
 
 class AllOrdersScreen extends StatefulWidget {
   const AllOrdersScreen({super.key});
@@ -115,6 +116,16 @@ class _AllOrdersScreenState extends State<AllOrdersScreen> {
                                 )
                         ],
                       ),
+                      trailing: orderModel.status == true
+                          ? ElevatedButton(
+                              onPressed: () => Get.to(
+                                () => AddReviewScreen(
+                                  orderModel: orderModel,
+                                ),
+                              ),
+                              child: Text("Review"),
+                            )
+                          : SizedBox.shrink(),
                     ),
                   );
                 },

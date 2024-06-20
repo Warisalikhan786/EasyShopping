@@ -39,7 +39,7 @@ dependencies:
   get: ^4.6.5
   flutter_keyboard_visibility: ^5.4.1
   firebase_core: ^2.15.1
-  google_sign_in: ^6.1.5
+  google_sign_in: ^6.1.5 
   firebase_auth: ^4.9.0
   cloud_firestore: ^4.9.1
   flutter_easyloading: ^3.0.5
@@ -49,6 +49,7 @@ dependencies:
   image_card: ^0.0.4
   flutter_swipe_action_cell: ^3.1.2
   url_launcher: ^6.2.1
+  flutter_rating_bar: ^4.0.1
 
 dev_dependencies:
   flutter_test:
