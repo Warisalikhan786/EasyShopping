@@ -1,9 +1,14 @@
 // ignore_for_file: avoid_unnecessary_containers, unused_local_variable
 
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:e_comm/models/order-model.dart';
 import 'package:e_comm/utils/app-constant.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:flutter_rating_bar/flutter_rating_bar.dart';
+
+import '../../models/review_model.dart';
 
 class AddReviewScreen extends StatefulWidget {
   final OrderModel orderModel;
@@ -67,9 +72,29 @@ class _AddReviewScreenState extends State<AddReviewScreen> {
             ),
             ElevatedButton(
                 onPressed: () async {
+                  EasyLoading.show(status: "Please wait..");
                   String feedback = feedbackController.text.trim();
+                  User? user = FirebaseAuth.instance.currentUser;
                   // print(feedback);
                   // print(productRating);
+
+                  ReviewModel reviewModel = ReviewModel(
+                    customerName: widget.orderModel.customerName,
+                    customerPhone: widget.orderModel.customerPhone,
+                    customerDeviceToken: widget.orderModel.customerDeviceToken,
+                    customerId: widget.orderModel.customerId,
+                    feedback: feedback,
+                    rating: productRating.toString(),
+                    createdAt: DateTime.now(),
+                  );
+
+                  await FirebaseFirestore.instance
+                      .collection('products')
+                      .doc(widget.orderModel.productId)
+                      .collection('review')
+                      .doc(user!.uid)
+                      .set(reviewModel.toMap());
+                  EasyLoading.dismiss();
                 },
                 child: const Text("Done"))
           ],
