@@ -3,6 +3,7 @@
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:e_comm/controllers/rating_controller.dart';
 import 'package:e_comm/models/product-model.dart';
 import 'package:e_comm/models/review_model.dart';
 import 'package:e_comm/utils/app-constant.dart';
@@ -10,6 +11,7 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/cupertino.dart';
 
 import 'package:flutter/material.dart';
+import 'package:flutter_rating_bar/flutter_rating_bar.dart';
 import 'package:get/get.dart';
 import 'package:url_launcher/url_launcher.dart';
 
@@ -28,6 +30,8 @@ class _ProductDetailsScreenState extends State<ProductDetailsScreen> {
   User? user = FirebaseAuth.instance.currentUser;
   @override
   Widget build(BuildContext context) {
+    CalculateProductRatingController calculateProductRatingController = Get.put(
+        CalculateProductRatingController(widget.productModel.productId));
     return Scaffold(
       appBar: AppBar(
         iconTheme: IconThemeData(color: AppConstant.appTextColor),
@@ -110,6 +114,36 @@ class _ProductDetailsScreenState extends State<ProductDetailsScreen> {
                           ),
                         ),
                       ),
+                      //review
+                      Row(
+                        children: [
+                          Container(
+                            alignment: Alignment.topLeft,
+                            child: RatingBar.builder(
+                              glow: false,
+                              ignoreGestures: true,
+                              initialRating: double.parse(
+                                  calculateProductRatingController.averageRating
+                                      .toString()),
+                              minRating: 1,
+                              direction: Axis.horizontal,
+                              allowHalfRating: true,
+                              itemCount: 5,
+                              itemSize: 25,
+                              itemPadding:
+                                  EdgeInsets.symmetric(horizontal: 2.0),
+                              itemBuilder: (context, _) => Icon(
+                                Icons.star,
+                                color: Colors.amber,
+                              ),
+                              onRatingUpdate: (value) {},
+                            ),
+                          ),
+                          Text(calculateProductRatingController.averageRating
+                              .toString()),
+                        ],
+                      ),
+
                       Padding(
                         padding: const EdgeInsets.all(8.0),
                         child: Container(
