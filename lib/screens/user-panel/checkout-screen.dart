@@ -32,7 +32,7 @@ class _CheckOutScreenState extends State<CheckOutScreen> {
   String? phone;
   String? address;
 
-  Razorpay _razorpay = Razorpay();
+  final Razorpay _razorpay = Razorpay();
 
   @override
   Widget build(BuildContext context) {
@@ -171,7 +171,7 @@ class _CheckOutScreenState extends State<CheckOutScreen> {
                       "Confirm Order",
                       style: TextStyle(color: AppConstant.appTextColor),
                     ),
-                    onPressed: () {
+                    onPressed: () async {
                       showCustomBottomSheet();
                     },
                   ),
@@ -271,7 +271,7 @@ class _CheckOutScreenState extends State<CheckOutScreen> {
                     customerToken = await getCustomerDeviceToken();
 
                     var options = {
-                      'key': 'rzp_test_YghCO1so2pwPnx',
+                      'key': 'Your key',
                       'amount': 1000,
                       'currency': 'USD',
                       'name': 'Acme Corp.',
