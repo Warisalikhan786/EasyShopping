@@ -29,6 +29,19 @@
         <meta-data
             android:name="flutterEmbedding"
             android:value="2" />
+
+            <!-- for notification channel -->
+        <meta-data
+            android:name="com.google.firebase.messaging.default_notification_channel_id"
+            android:value="ecomm-channel" />
+
+             <!-- Firebase Messaging Service -->
+         <receiver android:name="com.dexterous.flutterlocalnotifications.ScheduledNotificationBootReceiver"
+                android:exported="false">
+                <intent-filter>
+                    <action android:name="android.intent.action.BOOT_COMPLETED"/>
+                </intent-filter>
+        </receiver>
     </application>
 
      <!-- for Url Luncher -->

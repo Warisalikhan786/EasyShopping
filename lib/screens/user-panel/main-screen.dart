@@ -6,6 +6,7 @@ import 'package:e_comm/screens/user-panel/cart-screen.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:get/get.dart';
+import '../../services/notification_service.dart';
 import '../../utils/app-constant.dart';
 import '../../widgets/all-products-widget.dart';
 import '../../widgets/banner-widget.dart';
@@ -15,8 +16,22 @@ import '../../widgets/flash-sale-widget.dart';
 import '../../widgets/heading-widget.dart';
 import 'all-categories-screen.dart';
 
-class MainScreen extends StatelessWidget {
+class MainScreen extends StatefulWidget {
   const MainScreen({super.key});
+
+  @override
+  State<MainScreen> createState() => _MainScreenState();
+}
+
+class _MainScreenState extends State<MainScreen> {
+  NotificationService notificationService = NotificationService();
+
+  @override
+  void initState() {
+    super.initState();
+    notificationService.requestNotificationPermission();
+    notificationService.getDeviceToken();
+  }
 
   @override
   Widget build(BuildContext context) {

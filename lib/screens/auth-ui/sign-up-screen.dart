@@ -8,6 +8,7 @@ import 'package:flutter_keyboard_visibility/flutter_keyboard_visibility.dart';
 import 'package:get/get.dart';
 
 import '../../controllers/sign-up-controller.dart';
+import '../../services/notification_service.dart';
 
 class SignUpScreen extends StatefulWidget {
   const SignUpScreen({super.key});
@@ -185,12 +186,15 @@ class _SignUpScreenState extends State<SignUpScreen> {
                         style: TextStyle(color: AppConstant.appTextColor),
                       ),
                       onPressed: () async {
+                        NotificationService notificationService =
+                            NotificationService();
                         String name = username.text.trim();
                         String email = userEmail.text.trim();
                         String phone = userPhone.text.trim();
                         String city = userCity.text.trim();
                         String password = userPassword.text.trim();
-                        String userDeviceToken = '';
+                        String userDeviceToken =
+                            await notificationService.getDeviceToken();
 
                         if (name.isEmpty ||
                             email.isEmpty ||
