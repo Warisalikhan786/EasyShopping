@@ -36,12 +36,21 @@
             android:value="ecomm-channel" />
 
              <!-- Firebase Messaging Service -->
-         <receiver android:name="com.dexterous.flutterlocalnotifications.ScheduledNotificationBootReceiver"
-                android:exported="false">
+
+        <receiver android:name="com.dexterous.flutterlocalnotifications.ScheduledNotificationBootReceiver"
+                android:exported="true">
                 <intent-filter>
                     <action android:name="android.intent.action.BOOT_COMPLETED"/>
                 </intent-filter>
-        </receiver>
+            </receiver>
+
+            <service
+            android:name="com.google.firebase.messaging.FirebaseMessagingService"
+            android:exported="false">
+            <intent-filter>
+                <action android:name="com.google.firebase.MESSAGING_EVENT"/>
+            </intent-filter>
+             </service>
     </application>
 
      <!-- for Url Luncher -->

@@ -31,6 +31,8 @@ class _MainScreenState extends State<MainScreen> {
     super.initState();
     notificationService.requestNotificationPermission();
     notificationService.getDeviceToken();
+    notificationService.firebaseInit(context);
+    notificationService.setupInteractMessage(context);
   }
 
   @override
