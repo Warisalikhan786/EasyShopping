@@ -2,7 +2,9 @@
 // ignore_for_file: avoid_print, unused_local_variable
 
 import 'dart:io';
+import 'package:e_comm/screens/user-panel/cart-screen.dart';
 import 'package:e_comm/screens/user-panel/main-screen.dart';
+import 'package:e_comm/screens/user-panel/notification_screen.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
@@ -183,11 +185,28 @@ class NotificationService {
   ) async {
     print(
         "Navigating to appointments screen. Hit here to handle the message. Message data: ${message.data}");
+
     Navigator.push(
       context,
       MaterialPageRoute(
-        builder: (context) => const MainScreen(),
+        builder: (context) => NotificationScreen(message: message),
       ),
     );
+
+    // if (message.data['screen'] == 'cart') {
+    //   Navigator.push(
+    //     context,
+    //     MaterialPageRoute(
+    //       builder: (context) => const CartScreen(),
+    //     ),
+    //   );
+    // } else {
+    //   Navigator.push(
+    //     context,
+    //     MaterialPageRoute(
+    //       builder: (context) => NotificationScreen(message: message),
+    //     ),
+    //   );
+    // }
   }
 }

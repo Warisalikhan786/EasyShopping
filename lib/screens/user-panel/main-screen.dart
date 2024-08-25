@@ -2,11 +2,13 @@
 
 import 'package:e_comm/screens/user-panel/all-flash-sale-products.dart';
 import 'package:e_comm/screens/user-panel/all-products-screen.dart';
-import 'package:e_comm/screens/user-panel/cart-screen.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:get/get.dart';
+import '../../services/get_server_key.dart';
 import '../../services/notification_service.dart';
+import '../../services/send_notification_service.dart';
 import '../../utils/app-constant.dart';
 import '../../widgets/all-products-widget.dart';
 import '../../widgets/banner-widget.dart';
@@ -25,6 +27,7 @@ class MainScreen extends StatefulWidget {
 
 class _MainScreenState extends State<MainScreen> {
   NotificationService notificationService = NotificationService();
+  final GetServerKey _getServerKey = GetServerKey();
 
   @override
   void initState() {
@@ -33,6 +36,12 @@ class _MainScreenState extends State<MainScreen> {
     notificationService.getDeviceToken();
     notificationService.firebaseInit(context);
     notificationService.setupInteractMessage(context);
+    getServiceToken();
+  }
+
+  Future<void> getServiceToken() async {
+    String serverToken = await _getServerKey.getServerKeyToken();
+    print("Server Token => $serverToken");
   }
 
   @override
@@ -51,7 +60,20 @@ class _MainScreenState extends State<MainScreen> {
         centerTitle: true,
         actions: [
           GestureDetector(
-            onTap: () => Get.to(() => CartScreen()),
+            // onTap: () => Get.to(() => CartScreen()),
+            onTap: () async {
+              EasyLoading.show();
+              await SendNotificationService.sendNotificationUsingApi(
+                token:
+                    "eUn8RwbTSwK3bv9j3rKQu8:APA91bHYEje64oVDk6dsLNI77jELGjmh59RB_yPNmlZXzqMoJB76HF7l6qMCPFSez5SqsDKoIdt6k8RDzDRt2IVTchgIigmRD_QmJIxZ1MkSscXknbOmPsZkYsUGToaFZQvvb1c-JFec",
+                title: "notification  title",
+                body: "notification body",
+                data: {
+                  "screen": "cart",
+                },
+              );
+              EasyLoading.dismiss();
+            },
             child: Padding(
               padding: const EdgeInsets.all(8.0),
               child: Icon(
