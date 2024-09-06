@@ -10,6 +10,8 @@ import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:get/get.dart';
 
 import 'genrate-order-id-service.dart';
+import 'notification_service.dart';
+import 'send_notification_service.dart';
 
 void placeOrder({
   required BuildContext context,
@@ -19,6 +21,7 @@ void placeOrder({
   required String customerDeviceToken,
 }) async {
   final user = FirebaseAuth.instance.currentUser;
+  NotificationService notificationService = NotificationService();
   EasyLoading.show(status: "Please Wait..");
   if (user != null) {
     try {
@@ -93,7 +96,37 @@ void placeOrder({
             print('Delete cart Products $cartModel.productId.toString()');
           });
         }
+        // save notification
+        await FirebaseFirestore.instance
+            .collection('notifications')
+            .doc(user.uid)
+            .collection('notifications')
+            .doc()
+            .set(
+          {
+            'title': "Order Successfully placed ${cartModel.productName}",
+            'body': cartModel.productDescription,
+            'isSeen': false,
+            'createdAt': DateTime.now(),
+            'image': cartModel.productImages,
+            'fullPrice': cartModel.fullPrice,
+            'salePrice': cartModel.salePrice,
+            'isSale': cartModel.isSale,
+            'productId': cartModel.productId,
+          },
+        );
       }
+
+      //sent notification
+      await SendNotificationService.sendNotificationUsingApi(
+        token:
+            "eUn8RwbTSwK3bv9j3rKQu8:APA91bHYEje64oVDk6dsLNI77jELGjmh59RB_yPNmlZXzqMoJB76HF7l6qMCPFSez5SqsDKoIdt6k8RDzDRt2IVTchgIigmRD_QmJIxZ1MkSscXknbOmPsZkYsUGToaFZQvvb1c-JFec",
+        title: "Order Successfully placed",
+        body: "notification body",
+        data: {
+          "screen": "notification",
+        },
+      );
 
       print("Order Confirmed");
       Get.snackbar(
