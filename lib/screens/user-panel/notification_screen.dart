@@ -23,19 +23,73 @@ class _NotificationScreenState extends State<NotificationScreen> {
         backgroundColor: AppConstant.appScendoryColor,
         title: const Text("Notifications"),
       ),
-      body: widget.message != null
-          ? Card(
-              elevation: 5,
-              child: ListTile(
-                leading: const Icon(Icons.notifications_active),
-                title: Text(widget.message!.notification!.title.toString()),
-                subtitle: Text(widget.message!.notification!.body.toString()),
-                trailing: Text(widget.message!.data['screen'].toString()),
-              ),
-            )
-          : const Center(
-              child: Text("no Notifications"),
-            ),
+      // body: widget.message != null
+      //     ? Card(
+      //         elevation: 5,
+      //         child: ListTile(
+      //           leading: const Icon(Icons.notifications_active),
+      //           title:
+      //               Text(widget.message!.notification!.title.toString() ?? ''),
+      //           subtitle: Text(widget.message!.notification!.body.toString()),
+      //           trailing: Text(widget.message!.data['screen'].toString()),
+      //         ),
+      //       )
+      //     : const Center(
+      //         child: Text("no Notifications"),
+      //       ),
+
+      body: FutureBuilder(
+        future: FirebaseFirestore.instance
+            .collection('notifications')
+            .doc(user!.uid)
+            .collection('notifications')
+            // .where('isSale', isEqualTo: true)
+            .get(),
+        builder: (BuildContext context, AsyncSnapshot<QuerySnapshot> snapshot) {
+          if (snapshot.hasError) {
+            return const Center(
+              child: Text("Error"),
+            );
+          }
+          if (snapshot.connectionState == ConnectionState.waiting) {
+            return const Center(
+              child: CupertinoActivityIndicator(),
+            );
+          }
+
+          if (snapshot.data!.docs.isEmpty) {
+            return const Center(
+              child: Text("No notifications found!"),
+            );
+          }
+
+          if (snapshot.data != null) {
+            return ListView.builder(
+              itemCount: snapshot.data!.docs.length,
+              shrinkWrap: true,
+              itemBuilder: (context, index) {
+                return Card(
+                  color: snapshot.data!.docs[index]['isSeen']
+                      ? Colors.green.withOpacity(0.3)
+                      : Colors.blue.withOpacity(0.3),
+                  elevation: snapshot.data!.docs[index]['isSeen'] ? 0 : 5,
+                  child: ListTile(
+                    leading: CircleAvatar(
+                      child: Icon(snapshot.data!.docs[index]['isSeen']
+                          ? Icons.done
+                          : Icons.notification_add),
+                    ),
+                    title: Text(snapshot.data!.docs[index]['title']),
+                    subtitle: Text(snapshot.data!.docs[index]['body']),
+                  ),
+                );
+              },
+            );
+          }
+
+          return Container();
+        },
+      ),
     );
   }
 }
