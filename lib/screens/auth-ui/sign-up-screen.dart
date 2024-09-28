@@ -216,7 +216,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
                             phone,
                             city,
                             password,
-                            userDeviceToken!,
+                            userDeviceToken,
                           );
 
                           if (userCredential != null) {
