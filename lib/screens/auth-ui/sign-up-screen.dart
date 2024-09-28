@@ -193,7 +193,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
                         String phone = userPhone.text.trim();
                         String city = userCity.text.trim();
                         String password = userPassword.text.trim();
-                        String userDeviceToken =
+                        String? userDeviceToken =
                             await notificationService.getDeviceToken();
 
                         if (name.isEmpty ||
@@ -216,7 +216,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
                             phone,
                             city,
                             password,
-                            userDeviceToken,
+                            userDeviceToken!,
                           );
 
                           if (userCredential != null) {

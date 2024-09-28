@@ -1,4 +1,6 @@
 // ignore: depend_on_referenced_packages
+// ignore_for_file: await_only_futures, avoid_single_cascade_in_expression_statements, avoid_print
+
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:e_comm/utils/app-constant.dart';
 import 'package:firebase_auth/firebase_auth.dart';
@@ -38,13 +40,13 @@ class _NotificationScreenState extends State<NotificationScreen> {
       //         child: Text("no Notifications"),
       //       ),
 
-      body: FutureBuilder(
-        future: FirebaseFirestore.instance
+      body: StreamBuilder(
+        stream: FirebaseFirestore.instance
             .collection('notifications')
             .doc(user!.uid)
             .collection('notifications')
             // .where('isSale', isEqualTo: true)
-            .get(),
+            .snapshots(),
         builder: (BuildContext context, AsyncSnapshot<QuerySnapshot> snapshot) {
           if (snapshot.hasError) {
             return const Center(
@@ -68,19 +70,35 @@ class _NotificationScreenState extends State<NotificationScreen> {
               itemCount: snapshot.data!.docs.length,
               shrinkWrap: true,
               itemBuilder: (context, index) {
-                return Card(
-                  color: snapshot.data!.docs[index]['isSeen']
-                      ? Colors.green.withOpacity(0.3)
-                      : Colors.blue.withOpacity(0.3),
-                  elevation: snapshot.data!.docs[index]['isSeen'] ? 0 : 5,
-                  child: ListTile(
-                    leading: CircleAvatar(
-                      child: Icon(snapshot.data!.docs[index]['isSeen']
-                          ? Icons.done
-                          : Icons.notification_add),
+                String docId = snapshot.data!.docs[index].id;
+                return GestureDetector(
+                  onTap: () async {
+                    print("Docid => $docId");
+                    await FirebaseFirestore.instance
+                        .collection('notifications')
+                        .doc(user!.uid)
+                        .collection('notifications')
+                        .doc(docId)
+                        .update(
+                      {
+                        "isSeen": true,
+                      },
+                    );
+                  },
+                  child: Card(
+                    color: snapshot.data!.docs[index]['isSeen']
+                        ? Colors.green.withOpacity(0.3)
+                        : Colors.blue.withOpacity(0.3),
+                    elevation: snapshot.data!.docs[index]['isSeen'] ? 0 : 5,
+                    child: ListTile(
+                      leading: CircleAvatar(
+                        child: Icon(snapshot.data!.docs[index]['isSeen']
+                            ? Icons.done
+                            : Icons.notification_add),
+                      ),
+                      title: Text(snapshot.data!.docs[index]['title']),
+                      subtitle: Text(snapshot.data!.docs[index]['body']),
                     ),
-                    title: Text(snapshot.data!.docs[index]['title']),
-                    subtitle: Text(snapshot.data!.docs[index]['body']),
                   ),
                 );
               },

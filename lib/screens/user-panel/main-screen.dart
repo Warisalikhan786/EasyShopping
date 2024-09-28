@@ -6,6 +6,7 @@ import 'package:e_comm/screens/user-panel/notification_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:get/get.dart';
+import '../../controllers/notification_controller.dart';
 import '../../services/get_server_key.dart';
 import '../../services/notification_service.dart';
 import '../../utils/app-constant.dart';
@@ -16,6 +17,8 @@ import '../../widgets/custom-drawer-widget.dart';
 import '../../widgets/flash-sale-widget.dart';
 import '../../widgets/heading-widget.dart';
 import 'all-categories-screen.dart';
+import 'cart-screen.dart';
+import 'package:badges/badges.dart' as badges;
 
 class MainScreen extends StatefulWidget {
   const MainScreen({super.key});
@@ -27,6 +30,9 @@ class MainScreen extends StatefulWidget {
 class _MainScreenState extends State<MainScreen> {
   NotificationService notificationService = NotificationService();
   final GetServerKey _getServerKey = GetServerKey();
+
+  final NotificationController notificationController =
+      Get.put(NotificationController());
 
   @override
   void initState() {
@@ -58,24 +64,21 @@ class _MainScreenState extends State<MainScreen> {
         ),
         centerTitle: true,
         actions: [
+          Obx(() {
+            return badges.Badge(
+              badgeContent: Text(
+                  "${notificationController.notificationCount.value}",
+                  style: TextStyle(color: Colors.white)),
+              position: badges.BadgePosition.topEnd(top: 0, end: 3),
+              showBadge: notificationController.notificationCount.value > 0,
+              child: IconButton(
+                icon: Icon(Icons.notifications),
+                onPressed: () => Get.to(() => NotificationScreen()),
+              ),
+            );
+          }),
           GestureDetector(
-              onTap: () => Get.to(() => NotificationScreen()),
-              child: Icon(Icons.notifications)),
-          GestureDetector(
-            // onTap: () => Get.to(() => CartScreen()),
-            onTap: () async {
-              // EasyLoading.show();
-              // await SendNotificationService.sendNotificationUsingApi(
-              //   token:
-              //       "eUn8RwbTSwK3bv9j3rKQu8:APA91bHYEje64oVDk6dsLNI77jELGjmh59RB_yPNmlZXzqMoJB76HF7l6qMCPFSez5SqsDKoIdt6k8RDzDRt2IVTchgIigmRD_QmJIxZ1MkSscXknbOmPsZkYsUGToaFZQvvb1c-JFec",
-              //   title: "notification  title",
-              //   body: "notification body",
-              //   data: {
-              //     "screen": "cart",
-              //   },
-              // );
-              // EasyLoading.dismiss();
-            },
+            onTap: () => Get.to(() => CartScreen()),
             child: Padding(
               padding: const EdgeInsets.all(8.0),
               child: Icon(

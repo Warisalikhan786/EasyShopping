@@ -15,7 +15,7 @@ class BannerWidget extends StatefulWidget {
 }
 
 class _BannerWidgetState extends State<BannerWidget> {
-  final CarouselController carouselController = CarouselController();
+  // final CarouselController carouselController = CarouselController();
   final bannerController _bannerController = Get.put(bannerController());
   @override
   Widget build(BuildContext context) {

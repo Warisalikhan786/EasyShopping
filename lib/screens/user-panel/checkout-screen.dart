@@ -270,19 +270,27 @@ class _CheckOutScreenState extends State<CheckOutScreen> {
                     address = addressController.text.trim();
                     customerToken = await getCustomerDeviceToken();
 
-                    var options = {
-                      'key': 'Your key',
-                      'amount': 1000,
-                      'currency': 'USD',
-                      'name': 'Acme Corp.',
-                      'description': 'Fine T-Shirt',
-                      'prefill': {
-                        'contact': '8888888888',
-                        'email': 'test@razorpay.com'
-                      }
-                    };
+                    placeOrder(
+                      context: context,
+                      customerName: name!,
+                      customerPhone: phone!,
+                      customerAddress: address!,
+                      customerDeviceToken: customerToken!,
+                    );
 
-                    _razorpay.open(options);
+                    // var options = {
+                    //   'key': 'Your key',
+                    //   'amount': 1000,
+                    //   'currency': 'USD',
+                    //   'name': 'Acme Corp.',
+                    //   'description': 'Fine T-Shirt',
+                    //   'prefill': {
+                    //     'contact': '8888888888',
+                    //     'email': 'test@razorpay.com'
+                    //   }
+                    // };
+
+                    // _razorpay.open(options);
                   } else {
                     print("Fill The Details");
                   }
