@@ -2,7 +2,7 @@
 
 ## 📌 Overview
 
-This is a modern E-Commerce mobile application built using **Flutter** and powered by **Firebase**. The app provides a seamless shopping experience with real-time data handling, secure authentication, and user-friendly UI.
+This is a modern E-Commerce mobile application built using **Flutter** and powered by **Firebase**. The app provides a seamless shopping experience with real-time data handling, secure authentication, and user-friendly UI..
 
 ---
 
